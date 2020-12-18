@@ -111,7 +111,29 @@ export class TodoListComponent implements OnInit {
     }
   }
   
+  checkDay1(date){
+    let x = date.split('-')[2]
+    let today = new Date().getDate()
 
+    if((x==today) || (x==(today-1)) || (x==(today+1))){
+      return true
+    }else{
+      return false
+    }
+  }
+  
+  
+    checkDay2(date){
+    let x = date.split('-')[2]
+    let today = new Date().getDate()
+
+    if((x==today) || (x==(today-1)) || (x==(today+1))){
+      return true
+    }else{
+      return false
+    }
+  }
+  
   getDay(date){
     let x = date.split('-')[2]
     let today = new Date().getDate()
