@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Famous LLM Models</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://vitalentum.net/upload/016/u1621/7/8/mesmerizing-peacock-feather-wallpaper-in-rich-colors-photo-photos-big.webp');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        
+        .navbar {
+            background-color: rgba(51, 51, 51, 0.8); /* Transparent background */
+        }
+        
+        .navbar a {
+            color: white !important;
+            font-size: 1.2rem;
+        }
+        
+        .navbar a:hover {
+            background-color: rgba(87, 87, 87, 0.8); /* Transparent hover background */
+        }
+        
+        .container {
+            padding: 20px;
+        }
+        
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .col-md-4 {
+            display: flex;
+            flex: 1 1 33%;
+            max-width: 33%;
+            padding: 10px;
+        }
+        
+        .model-card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            color: white;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .model-card:hover {
+            background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+        }
+        
+        .model-card h2 {
+            margin-top: 0;
+            color: white;
+        }
+        
+        .model-card p {
+            margin: 0;
+            color: white;
+        }
+        
+        .read-more {
+            color: black;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background: rgba(0, 0, 0, 0.8); /* Dark background for modal overlay */
+        }
+        
+        .modal-content {
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%); /* Gradient background for modal content */
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 8px;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-to">
+        <a class="navbar-brand mx-auto" href="#">
+            <h3>Famous LLM Models</h3>
+        </a>
+    </nav>
+    <div class="container">
+        <div class="row" id="model-cards-container">
+            <!-- Cards will be generated here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-description"></p>
+        </div>
+    </div>
+
+    <script>
+        const models = {
+            "GPT-3": {
+                description: "GPT-3 (Generative Pre-trained Transformer 3) is an autoregressive language model that uses deep learning to produce human-like text. It was developed by OpenAI and has 175 billion parameters. GPT-3 is known for its ability to generate coherent and contextually relevant text, making it useful for a wide range of applications including chatbots, content creation, and more.",
+                link: "https://www.openai.com/research/gpt-3"
+            },
+            "BERT": {
+                description: "BERT (Bidirectional Encoder Representations from Transformers) is a transformer-based model designed to understand the context of a word in search queries. It was developed by Google and has significantly improved natural language understanding. BERT is widely used in various NLP tasks such as question answering, sentiment analysis, and more.",
+                link: "https://ai.googleblog.com/2018/11/open-sourcing-bert-state-of-art-pre.html"
+            },
+            "T5": {
+                description: "T5 (Text-To-Text Transfer Transformer) is a transformer model that converts all NLP tasks into a text-to-text format. It was developed by Google and has been used for a wide range of NLP tasks. T5 is known for its versatility and effectiveness in various NLP applications.",
+                link: "https://ai.googleblog.com/2020/02/exploring-transfer-learning-with-t5.html"
+            },
+            "XLNet": {
+                description: "XLNet is a generalized autoregressive pretraining method that leverages the best of both autoregressive and autoencoding models. It was developed by Google and Carnegie Mellon University. XLNet has shown superior performance in various NLP tasks compared to previous models.",
+                link: "https://arxiv.org/abs/1906.08237"
+            },
+            "RoBERTa": {
+                description: "RoBERTa (Robustly optimized BERT approach) is a variant of BERT that modifies key hyperparameters, removing the next-sentence pretraining objective, and training with much larger mini-batches and learning rates. RoBERTa has achieved state-of-the-art results in various NLP benchmarks.",
+                link: "https://arxiv.org/abs/1907.11692"
+            },
+            "ALBERT": {
+                description: "ALBERT (A Lite BERT) is a lighter version of BERT that reduces the number of parameters to improve efficiency while maintaining performance. It was developed by Google and the Toyota Technological Institute at Chicago. ALBERT is known for its efficiency and effectiveness in various NLP tasks.",
+                link: "https://arxiv.org/abs/1909.11942"
+            },
+            "GPT-2": {
+                description: "GPT-2 (Generative Pre-trained Transformer 2) is a large-scale unsupervised language model developed by OpenAI. It is capable of generating coherent and contextually relevant text based on a given prompt. GPT-2 has 1.5 billion parameters and has been used in various applications including text generation, translation, and summarization.",
+                link: "https://www.openai.com/research/gpt-2"
+            },
+            "DistilBERT": {
+                description: "DistilBERT is a smaller, faster, and cheaper version of BERT. It retains 97% of BERT's language understanding capabilities while being 60% faster and 40% smaller. DistilBERT is widely used in applications where computational resources are limited.",
+                link: "https://arxiv.org/abs/1910.01108"
+            },
+            "Electra": {
+                description: "Electra is a transformer-based model that uses a new pretraining method called replaced token detection. It was developed by Google and has shown to be more efficient and effective than previous models like BERT. Electra is used in various NLP tasks such as text classification, token classification, and more.",
+                link: "https://arxiv.org/abs/2003.10555"
+            },
+            "ERNIE": {
+                description: "ERNIE (Enhanced Representation through Knowledge Integration) is a pre-trained language model developed by Baidu. It incorporates knowledge graphs into the pretraining process, allowing it to better understand the context and semantics of text. ERNIE has achieved state-of-the-art results in various NLP benchmarks.",
+                link: "https://arxiv.org/abs/1905.07129"
+            },
+            "Turing-NLG": {
+                description: "Turing-NLG is a large-scale generative language model developed by Microsoft. It has 17 billion parameters and is capable of generating coherent and contextually relevant text. Turing-NLG is used in various applications including text generation, translation, and summarization.",
+                link: "https://www.microsoft.com/en-us/research/project/turing/"
+            }
+        };
+        
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+        
+        function getRandomGradient() {
+            const color1 = getRandomColor();
+            const color2 = getRandomColor();
+            return `linear-gradient(135deg, ${color1} 0%, ${color2} 100%)`;
+        }
+        
+        function openModal(title, description) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-description').innerText = description;
+            document.querySelector('.modal-content').style.background = getRandomGradient();
+            document.getElementById('myModal').style.display = 'block';
+        }
+        
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+        }
+        
+        function createCard(model, description, link) {
+            const col = document.createElement('div');
+            col.className = 'col-12 col-sm-6 col-md-4 col-lg-3 mb-4';
+        
+            const card = document.createElement('div');
+            card.className = 'model-card';
+            card.style.background = getRandomGradient();
+            card.onclick = () => openModal(model, description);
+        
+            const title = document.createElement('h2');
+            const linkElement = document.createElement('a');
+            linkElement.href = link;
+            linkElement.target = '_blank'; // Open link in a new tab
+            linkElement.innerText = model;
+            linkElement.style.color = 'inherit'; // Ensure the link color matches the card text color
+            linkElement.style.textDecoration = 'none'; // Remove underline from the link
+            title.appendChild(linkElement);
+        
+            const desc = document.createElement('p');
+            desc.className = 'description';
+            desc.setAttribute('data-full-text', description);
+            const truncatedText = description.length > 300 ? description.substring(0, 300) + '... ' : description;
+            desc.innerHTML = truncatedText;
+        
+            card.appendChild(title);
+            card.appendChild(desc);
+            col.appendChild(card);
+        
+            return col;
+        }
+        
+        const container = document.getElementById('model-cards-container');
+        for (const [model, { description, link }] of Object.entries(models)) {
+            const card = createCard(model, description, link);
+            container.appendChild(card);
+        }
+    </script>
+</body>
+</html>
